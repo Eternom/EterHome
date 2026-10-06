@@ -4,11 +4,12 @@ plugins {
 }
 
 repositories {
-    // EterLib : publié localement avec `gradle publishToMavenLocal` depuis le projet EterLib
-    mavenLocal()
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    // VaultAPI et EterLib : compilés depuis GitHub
     maven("https://jitpack.io")
+    // Repli : EterLib publié sur cette machine (`gradlew publishToMavenLocal` dans EterLib), pour tester avant de pousser
+    mavenLocal()
 }
 
 dependencies {
@@ -20,7 +21,7 @@ dependencies {
     }
 
     // Socle commun : base, Redis, langue, joueurs, téléportation (plugin EterLib installé sur le serveur)
-    compileOnly("fr.eternom:EterLib:1.0-SNAPSHOT")
+    compileOnly("com.github.nadtum-create:EterLib:1.0.0")
 }
 
 java {
