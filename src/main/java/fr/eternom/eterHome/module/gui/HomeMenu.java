@@ -2,6 +2,7 @@ package fr.eternom.eterHome.module.gui;
 
 import fr.eternom.eterHome.module.home.Home;
 import fr.eternom.eterHome.module.permission.HomePermissions;
+import fr.eternom.eterLib.EterLib;
 import fr.eternom.eterLib.helper.gui.Items;
 import fr.eternom.eterLib.helper.gui.Menu;
 import fr.eternom.eterLib.helper.gui.Sounds;
@@ -189,7 +190,7 @@ public class HomeMenu implements Menu {
     private ItemStack homeItem(Home home) {
         boolean here = home.isOn(gui.serverName());
         List<Component> lore = new ArrayList<>();
-        lore.add(text(here ? "gui.home.server-here" : "gui.home.server", "server", home.getServer()));
+        lore.add(text(here ? "gui.home.server-here" : "gui.home.server", "server", EterLib.get().getServerDisplayName(home.getServer())));
         lore.add(text("gui.home.world", "world", home.getWorld()));
         lore.add(text("gui.home.coords", "x", coordinate(home.getX()), "y", coordinate(home.getY()), "z", coordinate(home.getZ())));
         lore.add(Component.empty());
