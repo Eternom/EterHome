@@ -21,7 +21,7 @@ dependencies {
     }
 
     // Socle commun : base, Redis, langue, joueurs, téléportation (plugin EterLib installé sur le serveur)
-    compileOnly("com.github.nadtum-create:EterLib:1.0.0")
+    compileOnly("com.github.Eternom:EterLib:1.0.0")
 }
 
 java {
