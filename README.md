@@ -17,8 +17,7 @@ Interface : **GUI simple** (inventaire Bukkit, rien de custom).
 | Dépendance | Rôle |
 |---|---|
 | Plugin de permissions (LuckPerms…) | Permissions / limites de homes, lues via l'API Bukkit |
-| Vault (`softdepend`, non utilisé pour l'instant) | Réservé : permissions de joueurs hors ligne si besoin |
-| **EterLib** (`depend`) | Socle commun : base, Redis, langue, joueurs du réseau, téléportation (voir le README d'EterLib) |
+| **EterLib** (`depend`) | Socle commun : base, Redis, langue, joueurs du réseau, téléportation, menus (voir le README d'EterLib) |
 
 ---
 

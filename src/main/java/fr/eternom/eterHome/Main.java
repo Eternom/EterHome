@@ -17,8 +17,9 @@ public final class Main extends JavaPlugin {
 
     /** Préfixe des tables d'EterHome dans la base commune : eterhome_homes. */
     private static final String TABLE_PREFIX = "eterhome_";
+    /** Version minimale d'EterLib : helper/gui et helper/task n'existent pas avant. */
+    private static final String REQUIRED_ETERLIB = "1.3.0";
 
-    private static Main instance;
     private Messages messages;
     private HomeManager homeManager;
     private PlayerDirectory playerDirectory;
@@ -27,8 +28,16 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
-        instance = this;
+        // En premier : vérifie la version d'EterLib (un EterLib < 1.3.0 n'a pas requireVersion, d'où le catch)
+        try {
+            if (!EterLib.requireVersion(this, REQUIRED_ETERLIB)) {
+                return;
+            }
+        } catch (LinkageError tooOld) {
+            getLogger().severe("EterLib " + REQUIRED_ETERLIB + " ou plus récent est nécessaire.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
         saveDefaultConfig();
 
         // Connexions, serveur, langue, joueurs et téléportation : fournis par EterLib (depend: [EterLib])
@@ -66,9 +75,5 @@ public final class Main extends JavaPlugin {
 
     public HomeGui getHomeGui() {
         return homeGui;
-    }
-
-    public static Main getInstance() {
-        return instance;
     }
 }

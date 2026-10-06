@@ -1,8 +1,11 @@
 package fr.eternom.eterHome.module.gui;
 
-import fr.eternom.eterLib.helper.message.Messages;
 import fr.eternom.eterHome.module.home.Home;
 import fr.eternom.eterHome.module.permission.HomePermissions;
+import fr.eternom.eterLib.helper.gui.Items;
+import fr.eternom.eterLib.helper.gui.Menu;
+import fr.eternom.eterLib.helper.gui.Sounds;
+import fr.eternom.eterLib.helper.message.Messages;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

@@ -5,7 +5,6 @@ main: fr.eternom.eterHome.Main
 api-version: '26.2'
 load: POSTWORLD
 depend: [EterLib]
-softdepend: [Vault]
 
 commands:
   sethome:

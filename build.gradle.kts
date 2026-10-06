@@ -6,7 +6,7 @@ plugins {
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
-    // VaultAPI et EterLib : compilés depuis GitHub
+    // EterLib : compilé depuis GitHub
     maven("https://jitpack.io")
     // Repli : EterLib publié sur cette machine (`gradlew publishToMavenLocal` dans EterLib), pour tester avant de pousser
     mavenLocal()
@@ -15,13 +15,8 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
 
-    // Vault : fourni par le plugin Vault installé sur le serveur
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1") {
-        exclude(group = "org.bukkit")
-    }
-
     // Socle commun : base, Redis, langue, joueurs, téléportation (plugin EterLib installé sur le serveur)
-    compileOnly("com.github.Eternom:EterLib:1.0.0")
+    compileOnly("com.github.Eternom:EterLib:1.3.0")
 }
 
 java {

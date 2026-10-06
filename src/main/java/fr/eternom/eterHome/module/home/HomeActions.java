@@ -2,6 +2,7 @@ package fr.eternom.eterHome.module.home;
 
 import fr.eternom.eterHome.module.permission.HomePermissions;
 import fr.eternom.eterLib.helper.message.Messages;
+import fr.eternom.eterLib.helper.task.Tasks;
 import fr.eternom.eterLib.module.teleport.Destination;
 import fr.eternom.eterLib.module.teleport.TeleportService;
 import org.bukkit.Bukkit;
@@ -14,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.logging.Level;
 
 /**
  * Actions sur les homes, partagées par les commandes et le GUI : vérifications, messages au joueur,
@@ -116,21 +116,7 @@ public class HomeActions {
 
     /** Exécute task hors du thread principal, puis then sur le thread principal si le joueur est toujours là. */
     public <T> void async(Player player, Supplier<T> task, Consumer<T> then) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            T result;
-            try {
-                result = task.get();
-            } catch (RuntimeException e) {
-                plugin.getLogger().log(Level.SEVERE, "Erreur pendant une action sur les homes", e);
-                Bukkit.getScheduler().runTask(plugin, () -> reply(player, new Reply(false, "error.generic")));
-                return;
-            }
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                if (player.isOnline()) {
-                    then.accept(result);
-                }
-            });
-        });
+        Tasks.async(plugin, player, task, then, () -> reply(player, new Reply(false, "error.generic")));
     }
 
     private void reply(Player player, Reply reply) {
