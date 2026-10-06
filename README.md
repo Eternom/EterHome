@@ -16,9 +16,9 @@ Interface : **GUI simple** (inventaire Bukkit, rien de custom).
 
 | Dépendance | Rôle |
 |---|---|
-| Vault **ou** LuckPerms (`softdepend`) | Permissions / limites de homes |
-| HikariCP (shadée) | Pool SQL |
-| Jedis (shadée, optionnelle à l'exécution) | Client Redis |
+| Plugin de permissions (LuckPerms…) | Permissions / limites de homes, lues via l'API Bukkit |
+| Vault (`softdepend`, non utilisé pour l'instant) | Réservé : permissions de joueurs hors ligne si besoin |
+| **EterLib** (`depend`) | Socle commun : base, Redis, langue, joueurs du réseau, téléportation (voir le README d'EterLib) |
 
 ---
 
@@ -39,34 +39,24 @@ eterhome/
 - **`listeners`** : registre des déclarations de commandes et d'events (`CommandRegistry`, `EventRegistry`). Les fichiers eux-mêmes vivent dans leur module. Indépendant de `helper` et `core`.
 - **`module`** : toute la logique métier (`home`, `teleport`, `gui`, `backup`, `permission`).
 
-```
-helper/
-├── sql/        SqlHelper → MySqlHelper, PostgreSqlHelper
-├── cache/      CacheHelper → NoopCacheHelper, LocalCacheHelper, RedisCacheHelper
-└── messaging/  MessagingHelper → NoopMessaging, RedisMessaging
-```
+> ✅ **Tranché** : `core` et `helper` vivent dans **EterLib**, partagé par tous les plugins Eter. EterHome ne contient plus
+> que `listeners` et `module` (homes, GUI, permissions) et ne gère **que les homes**.
 
-Dépendances : `module → helper → core`, et `listeners → module`.
-
-> ⚡ **Piste** : une seule implémentation JDBC + une petite interface `SqlDialect` plutôt qu'une classe complète par SGBD. À trancher avant le gros commit.
+Dépendances : `module → EterLib (helper, services)`, et `listeners → module`.
 
 ---
 
 ## ⚡ Cache et communication
 
-**SQL est la source de vérité.** Le cache est **optionnel** : sans cache configuré, le plugin **requête directement la DB**.
+**SQL est la source de vérité.** Redis est **optionnel** (réglé dans `EterLib/config.yml`) :
 
 | Mode | Implémentation |
 |---|---|
-| Aucun cache | `NoopCacheHelper` → lecture/écriture SQL directes |
-| Serveur unique | `LocalCacheHelper` (`ConcurrentHashMap`) |
-| Cross-server | `RedisCacheHelper` |
+| `cache.enabled: false` | `EterLib#getRedis()` = `null` → le module lit/écrit SQL directement |
+| `cache.enabled: true` | `RedisCache`, partagé entre serveurs (copie invalidée à chaque écriture, TTL 1h) |
 
-- choix dans `config.yml`, résolu **uniquement dans `core`**
-- les modules ne parlent qu'à `CacheHelper` (miss = lecture SQL), ils ne savent pas quel mode est actif
-- **TTL** configurable (cache-aside) : absent/expiré → lecture SQL puis remise en cache
-- `MessagingHelper` (publish/subscribe) = interface de **communication inter-serveurs** : vide aujourd'hui, Redis pub/sub (ou autre) plus tard
-- Redis n'est jamais requis pour démarrer
+- auto-complétion des noms de homes seulement avec Redis (sinon SQL à chaque touche)
+- Redis n'est jamais requis pour démarrer EterHome
 
 ---
 
@@ -86,8 +76,18 @@ Tâche **asynchrone**, lit **SQL**, format agnostique du SGBD (ex. JSON), rotati
 
 ## 🗄️ Données et permissions (propositions)
 
-- Table `eterhome_homes` : `id`, `owner_uuid`, `name`, `server`, `world`, `x`, `y`, `z`, `yaw`, `pitch`, `created_at` — `UNIQUE (owner_uuid, name)`
-- Permissions : `eterhome.set`, `.delete`, `.teleport`, `.list`, `.others.view`, `.others.teleport`, `.others.delete`, `.limit.<n>`, `.bypass.*`, `.admin`, `.admin.backup`
+- `eterhome_homes` : `owner`, `name`, `server`, `world`, `x`, `y`, `z`, `yaw`, `pitch`, `icon` — `PRIMARY KEY (owner, name)`
+- Joueurs (`eter_players`), cooldown et téléportations en attente : tables d'EterLib (`eter_*`)
+- Permissions joueur (par défaut) : `eterhome.set`, `.delete`, `.rename`, `.teleport`, `.list`
+- Permissions admin (op) : `.others.view`, `.others.teleport`, `.others.delete`, `.others.rename`, `.limit.unlimited`, regroupées dans `.admin`
+- Dispenses de téléportation : `eter.bypass.warmup`, `.cooldown`, `.combat` (EterLib, valables pour tout le réseau)
+- Limite : `eterhome.limit.<n>`, sinon `homes.default-limit` (config). À venir : `.admin.backup`
+
+## 🌍 Messages et téléportation
+
+- Messages en **MiniMessage** dans `lang/<locale>.yml` (codes Minecraft), choisis selon la langue du client, **`en_us` par défaut**. Palette commune (`<primary>`, `<accent>`, `<success>`, `<error>`, `<info>`) définie dans `EterLib/config.yml`.
+- GUI `/homes` : cadre orange (rouge en vue admin), icône par dimension ou choisie par le joueur, tête du joueur avec limite et cooldown en direct. Création, modification et suppression via les **Dialogs** natifs (client 1.21.6+), sans saisie dans le chat.
+- Téléportation (EterLib, commune à /home, /tpa…) : **combat** (coup donné/reçu, monstres compris) → **cooldown** (partagé entre serveurs) → **warmup** (bossbar, particules, annulé si on bouge ou prend des dégâts) → départ.
 
 ---
 
@@ -100,9 +100,9 @@ Tâche **asynchrone**, lit **SQL**, format agnostique du SGBD (ex. JSON), rotati
 
 ## ❓ Questions ouvertes
 
-1. Téléportation inter-serveurs en v1 ou en issue ?
-2. Vault, LuckPerms, ou les deux ?
-3. Helpers SQL : une classe par SGBD ou `SqlDialect` ?
+1. ~~Téléportation inter-serveurs en v1 ou en issue ?~~ → v1 : téléportation en attente (Redis avec TTL, sinon table `pending_teleports`) + `Connect` via le canal `BungeeCord`, appliquée au spawn (`AsyncPlayerSpawnLocationEvent`)
+2. ~~Vault, LuckPerms, ou les deux ?~~ → API de permissions Bukkit (fonctionne avec LuckPerms) ; Vault seulement si on doit lire les permissions d'un joueur hors ligne
+3. ~~Helpers SQL : une classe par SGBD ou `SqlDialect` ?~~ → une seule classe `Database` (MySQL/MariaDB)
 4. Version cible (Minecraft / Java / Paper) ?
 5. Téléportation : délai, cooldown, annulation au mouvement dès la v1 ?
 6. Backup : format, restauration, valeurs par défaut ?
@@ -113,5 +113,5 @@ Tâche **asynchrone**, lit **SQL**, format agnostique du SGBD (ex. JSON), rotati
 
 - `core` initialise, `helper` consomme, `module` décide, `listeners` déclarent
 - Aucune I/O bloquante sur le thread principal
-- Cache et Redis optionnels, toujours derrière une interface
+- Cache Redis optionnel, SQL toujours source de vérité
 - Pas de feature sans issue (après la phase 1)

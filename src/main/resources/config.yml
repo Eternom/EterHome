@@ -1,99 +1,13 @@
 # ============================================================
-#  Base de données
+#  EterHome
 # ============================================================
 #
-#  Choisis d'abord le type de base avec "type", puis remplis
-#  UNIQUEMENT la partie qui correspond à ce type :
-#
-#   type        | À remplir               | Quand l'utiliser
-#   ------------+-------------------------+-----------------------------------------
-#   sqlite      | partie FICHIER          | Un seul serveur, rien à installer (défaut)
-#   h2          | partie FICHIER          | Comme sqlite, alternative si sqlite pose souci
-#   mysql       | partie SERVEUR          | Plusieurs serveurs (BungeeCord/Velocity)
-#   mariadb     | partie SERVEUR          |   qui doivent partager les mêmes homes,
-#   postgresql  | partie SERVEUR          |   ou base déjà fournie par ton hébergeur
-#
-#  Les paramètres de la partie non utilisée sont simplement ignorés.
+#  Serveur, base de données, Redis, téléportation (attente, cooldown,
+#  combat), langue et couleurs se règlent dans EterLib/config.yml,
+#  communs à tous les plugins Eter. Ici, seulement ce qui concerne les homes.
 #  Toute modification nécessite un redémarrage du serveur.
 
-database:
-  type: sqlite
-
-  # ----------------------------------------------------------
-  #  Partie FICHIER (sqlite, h2)
-  # ----------------------------------------------------------
-  # Nom du fichier créé dans plugins/EterHome/, sans extension.
-  # Ex : "database" -> plugins/EterHome/database.db (sqlite)
-  file: database
-
-  # ----------------------------------------------------------
-  #  Partie SERVEUR (mysql, mariadb, postgresql)
-  #  Ces infos te sont données par ton hébergeur ou ton admin
-  # ----------------------------------------------------------
-  # Adresse du serveur de base de données.
-  # "localhost" si la base tourne sur la même machine que Minecraft.
-  host: localhost
-
-  # Port du serveur de base de données.
-  # 0 = port par défaut du type (3306 pour mysql/mariadb, 5432 pour postgresql).
-  # Ne change que si ton hébergeur t'indique un autre port.
-  port: 0
-
-  # Nom de la base. Elle doit déjà exister : le plugin crée les tables,
-  # pas la base elle-même (ex : CREATE DATABASE eterhome;).
-  name: eterhome
-
-  # Identifiants d'un utilisateur ayant les droits sur cette base.
-  # Évite "root" en production : crée un utilisateur dédié.
-  username: root
-  password: ''
-
-  # Nombre max de connexions ouvertes en même temps.
-  # 10 suffit largement pour la plupart des serveurs ; à augmenter seulement
-  # si les logs signalent des attentes de connexion. Ne pas dépasser la limite
-  # de connexions autorisée par ton hébergeur.
-  pool-size: 10
-
-# ============================================================
-#  Cache
-# ============================================================
-#
-#  Le cache garde les données souvent lues (ex : les homes d'un joueur)
-#  pour éviter de redemander à la base à chaque fois. Il est OPTIONNEL :
-#  la base de données reste toujours la source de vérité.
-#
-#   type    | Quand l'utiliser
-#   --------+----------------------------------------------------------------
-#   none    | Pas de cache, tout est lu en base. Suffisant pour la plupart
-#           | des serveurs : une base gère sans souci des milliers de requêtes.
-#   memory  | Un SEUL serveur. Cache dans la mémoire du serveur, le plus rapide.
-#           | À ÉVITER en multi-serveurs : chaque serveur aurait sa propre copie
-#           | et ne verrait pas les modifications faites sur les autres.
-#   redis   | Plusieurs serveurs (BungeeCord/Velocity) qui partagent les données.
-#           | Nécessite un serveur Redis installé (remplir la partie redis).
-#
-#  Toute modification nécessite un redémarrage du serveur.
-
-cache:
-  type: none
-
-  # ----------------------------------------------------------
-  #  Partie REDIS (uniquement si type: redis)
-  # ----------------------------------------------------------
-  redis:
-    # Adresse et port du serveur Redis ("localhost" si même machine, port par défaut 6379).
-    host: localhost
-    port: 6379
-
-    # Mot de passe Redis, laisser vide s'il n'y en a pas.
-    password: ''
-
-    # Numéro de base Redis (0 à 15). Laisser 0 sauf si ton admin t'en attribue une autre.
-    database: 0
-
-    # Préfixe ajouté à toutes les clés pour ne pas mélanger avec d'autres plugins
-    # utilisant le même Redis. Doit être identique sur tous les serveurs qui partagent les données.
-    prefix: 'eterhome:'
-
-    # Nombre max de connexions ouvertes en même temps vers Redis. 8 suffit largement.
-    pool-size: 8
+homes:
+  # Nombre de homes par joueur. Une permission eterhome.limit.<n> (ex : eterhome.limit.10)
+  # peut l'augmenter, jamais le baisser ; eterhome.limit.unlimited le supprime.
+  default-limit: 3

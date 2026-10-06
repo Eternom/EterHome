@@ -1,0 +1,76 @@
+# Messages d'EterHome, format MiniMessage : https://docs.advntr.dev/minimessage/format
+# Balises de la palette (EterLib/config.yml > language.colors) : <primary> <accent> <info> <error> <success>
+#   <info> = texte courant gris clair, <accent> = mots importants en orange.
+# Les valeurs entre <> comme <home> sont remplies par le plugin. Pour afficher un "<", écrire \< entre 'guillemets simples'.
+# Une clé absente reprend le texte intégré au plugin : tu peux ne garder que les lignes que tu modifies.
+
+prefix: "<gradient:#FF7A00:#FFB347><bold>EterHome</bold></gradient> <dark_gray>» "
+
+command:
+  players-only: "<error>Commande réservée aux joueurs."
+
+error:
+  generic: "<error>Une erreur est survenue, réessaie plus tard."
+
+home:
+  set: "<info>Home <accent><home></accent> défini."
+  moved: "<info>Home <accent><home></accent> déplacé ici."
+  deleted: "<info>Home <accent><home></accent> supprimé."
+  updated: "<info>Home <accent><home></accent> mis à jour."
+  not-found: "<error>Aucun home nommé <accent><home></accent>."
+  name-invalid: "<error>Nom invalide : lettres, chiffres, _ et -, <accent>32</accent> caractères max."
+  name-taken: "<error>Un home s'appelle déjà <accent><home></accent>."
+  limit-reached: "<error>Limite atteinte : <accent><limit></accent> home(s) maximum."
+  delhome-usage: '<error>Précise le home à supprimer : <accent>/delhome \<nom>'
+
+player:
+  unknown: "<error>Joueur inconnu : <accent><player></accent>."
+  no-permission-others: "<error>Tu n'as pas la permission de voir les homes des autres joueurs."
+
+dialog:
+  name: "Nom"
+  use-hand: "Utiliser l'item en main comme icône"
+  cancel: "Annuler"
+  create:
+    title: "<primary>Nouveau home"
+    body: "Ta position actuelle sera enregistrée."
+    confirm: "Créer"
+  edit:
+    title: "<primary>Modifier le home"
+    body: "Change le nom, ou tiens un item en main pour en faire l'icône."
+    confirm: "Enregistrer"
+  delete:
+    title: "<primary>Supprimer le home"
+    body: "Supprimer définitivement <home> ? C'est irréversible."
+    confirm: "<error>Supprimer"
+
+gui:
+  title-own: "<primary>Mes homes"
+  title-other: "<primary>Homes de <player>"
+  previous: "<accent>« Page précédente"
+  next: "<accent>Page suivante »"
+  page: "<info>Page <accent><page></accent>/<accent><pages>"
+  create: "<accent>Nouveau home"
+  create-lore: "<info>Enregistre ta position actuelle"
+  empty-own: "<info>Tu n'as encore aucun home"
+  empty-own-lore: "<accent>Clique <info>pour en créer un ici"
+  empty-other: "<info><player> n'a aucun home"
+  unlimited: "∞"
+  info:
+    name: "<accent><player>"
+    count: "<info>Homes : <accent><count></accent><dark_gray>/</dark_gray><accent><limit>"
+    count-other: "<info>Homes : <accent><count>"
+    gauge: "<accent><filled></accent><dark_gray><empty>"
+    ready: "<success>● <info>Téléportation disponible"
+    cooldown: "<error>● <info>Téléportation dans <accent><time>s"
+    combat: "<error>● <info>En combat : <accent><time>s"
+    admin: "<error>● <info>Vue admin"
+  home:
+    name: "<accent><home>"
+    server: "<dark_gray>▸ <info>Serveur : <accent><server>"
+    server-here: "<dark_gray>▸ <info>Serveur : <accent><server></accent> <success>(ici)"
+    world: "<dark_gray>▸ <info>Monde : <accent><world>"
+    coords: "<dark_gray>▸ <info>X <accent><x></accent> · Y <accent><y></accent> · Z <accent><z>"
+    teleport: "<accent>Clic gauche <dark_gray>· <info>se téléporter"
+    edit: "<accent>Maj + clic gauche <dark_gray>· <info>modifier"
+    delete: "<accent>Clic droit <dark_gray>· <info>supprimer"

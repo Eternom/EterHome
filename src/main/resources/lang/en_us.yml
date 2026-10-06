@@ -1,0 +1,76 @@
+# EterHome messages, MiniMessage format: https://docs.advntr.dev/minimessage/format
+# Palette tags (EterLib/config.yml > language.colors): <primary> <accent> <info> <error> <success>
+#   <info> = normal light gray text, <accent> = important words in orange.
+# Values between <> such as <home> are filled in by the plugin. To show a literal "<", write \< inside 'single quotes'.
+# A missing key falls back to the plugin's built-in text: you only need to keep the lines you change.
+
+prefix: "<gradient:#FF7A00:#FFB347><bold>EterHome</bold></gradient> <dark_gray>» "
+
+command:
+  players-only: "<error>This command can only be used by players."
+
+error:
+  generic: "<error>Something went wrong, please try again later."
+
+home:
+  set: "<info>Home <accent><home></accent> set."
+  moved: "<info>Home <accent><home></accent> moved here."
+  deleted: "<info>Home <accent><home></accent> deleted."
+  updated: "<info>Home <accent><home></accent> updated."
+  not-found: "<error>No home named <accent><home></accent>."
+  name-invalid: "<error>Invalid name: letters, digits, _ and -, <accent>32</accent> characters max."
+  name-taken: "<error>A home named <accent><home></accent> already exists."
+  limit-reached: "<error>Limit reached: <accent><limit></accent> home(s) maximum."
+  delhome-usage: '<error>Tell which home to delete: <accent>/delhome \<name>'
+
+player:
+  unknown: "<error>Unknown player: <accent><player></accent>."
+  no-permission-others: "<error>You are not allowed to see other players' homes."
+
+dialog:
+  name: "Name"
+  use-hand: "Use the item in my hand as icon"
+  cancel: "Cancel"
+  create:
+    title: "<primary>New home"
+    body: "Your current position will be saved."
+    confirm: "Create"
+  edit:
+    title: "<primary>Edit home"
+    body: "Change the name, or hold an item to use it as the icon."
+    confirm: "Save"
+  delete:
+    title: "<primary>Delete home"
+    body: "Delete <home> for good? This cannot be undone."
+    confirm: "<error>Delete"
+
+gui:
+  title-own: "<primary>My homes"
+  title-other: "<primary>Homes of <player>"
+  previous: "<accent>« Previous page"
+  next: "<accent>Next page »"
+  page: "<info>Page <accent><page></accent>/<accent><pages>"
+  create: "<accent>New home"
+  create-lore: "<info>Saves your current position"
+  empty-own: "<info>You don't have any home yet"
+  empty-own-lore: "<accent>Click <info>to create one here"
+  empty-other: "<info><player> has no home"
+  unlimited: "∞"
+  info:
+    name: "<accent><player>"
+    count: "<info>Homes: <accent><count></accent><dark_gray>/</dark_gray><accent><limit>"
+    count-other: "<info>Homes: <accent><count>"
+    gauge: "<accent><filled></accent><dark_gray><empty>"
+    ready: "<success>● <info>Teleport available"
+    cooldown: "<error>● <info>Teleport in <accent><time>s"
+    combat: "<error>● <info>In combat: <accent><time>s"
+    admin: "<error>● <info>Admin view"
+  home:
+    name: "<accent><home>"
+    server: "<dark_gray>▸ <info>Server: <accent><server>"
+    server-here: "<dark_gray>▸ <info>Server: <accent><server></accent> <success>(here)"
+    world: "<dark_gray>▸ <info>World: <accent><world>"
+    coords: "<dark_gray>▸ <info>X <accent><x></accent> · Y <accent><y></accent> · Z <accent><z>"
+    teleport: "<accent>Left click <dark_gray>· <info>teleport"
+    edit: "<accent>Shift + left click <dark_gray>· <info>edit"
+    delete: "<accent>Right click <dark_gray>· <info>delete"

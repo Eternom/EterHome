@@ -4,12 +4,58 @@ version: '${version}'
 main: fr.eternom.eterHome.Main
 api-version: '26.2'
 load: POSTWORLD
-depend: [Vault]
-libraries:
-  - com.zaxxer:HikariCP:7.0.2
-  - redis.clients:jedis:6.2.0
-  - com.mysql:mysql-connector-j:9.4.0
-  - org.mariadb.jdbc:mariadb-java-client:3.5.6
-  - org.postgresql:postgresql:42.7.8
-  - org.xerial:sqlite-jdbc:3.50.3.0
-  - com.h2database:h2:2.3.232
+depend: [EterLib]
+softdepend: [Vault]
+
+commands:
+  sethome:
+    description: Définit un home à ta position.
+    usage: /sethome [nom]
+    permission: eterhome.set
+  delhome:
+    description: Supprime un home.
+    usage: /delhome <nom>
+    permission: eterhome.delete
+  home:
+    description: Te téléporte à un home, même sur un autre serveur.
+    usage: /home [nom]
+    permission: eterhome.teleport
+  homes:
+    description: Ouvre le menu de tes homes, ou de ceux d'un autre joueur (admin).
+    usage: /homes [joueur]
+    permission: eterhome.list
+
+permissions:
+  # Joueurs : gérer ses propres homes
+  eterhome.set:
+    default: true
+  eterhome.delete:
+    default: true
+  eterhome.rename:
+    default: true
+  eterhome.teleport:
+    default: true
+  eterhome.list:
+    default: true
+  # Nombre de homes : eterhome.limit.<n> (ex : eterhome.limit.10), sinon homes.default-limit
+  eterhome.limit.unlimited:
+    default: op
+
+  # Admins : homes des autres joueurs, via /homes <joueur>
+  eterhome.others.view:
+    default: op
+  eterhome.others.teleport:
+    default: op
+  eterhome.others.delete:
+    default: op
+  eterhome.others.rename:
+    default: op
+  eterhome.admin:
+    description: Tous les droits admin.
+    default: op
+    children:
+      eterhome.others.view: true
+      eterhome.others.teleport: true
+      eterhome.others.delete: true
+      eterhome.others.rename: true
+      eterhome.limit.unlimited: true
