@@ -3,6 +3,7 @@ package fr.eternom.eterHome.module.gui;
 import fr.eternom.eterHome.module.home.Home;
 import fr.eternom.eterHome.module.permission.HomePermissions;
 import fr.eternom.eterLib.EterLib;
+import fr.eternom.eterLib.helper.gui.Frame;
 import fr.eternom.eterLib.helper.gui.Items;
 import fr.eternom.eterLib.helper.gui.Menu;
 import fr.eternom.eterLib.helper.gui.Sounds;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -43,7 +43,6 @@ public class HomeMenu implements Menu {
     private static final int CREATE = 49;
     private static final int NEXT = 53;
     private static final int EMPTY = 22;
-    private static final Set<Integer> ACCENT_FRAME = Set.of(0, 1, 7, 8, 9, 17, 36, 44, 46, 52);
     private static final List<Integer> HOME_SLOTS = homeSlots();
     private static final int GAUGE_SIZE = 10;
 
@@ -149,13 +148,7 @@ public class HomeMenu implements Menu {
     }
 
     private void drawFrame() {
-        ItemStack accent = Items.pane(isOwn() ? Material.ORANGE_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE);
-        ItemStack neutral = Items.pane(Material.GRAY_STAINED_GLASS_PANE);
-        for (int slot = 0; slot < inventory.getSize(); slot++) {
-            if (!HOME_SLOTS.contains(slot)) {
-                inventory.setItem(slot, ACCENT_FRAME.contains(slot) ? accent : neutral);
-            }
-        }
+        Frame.fill(inventory, isOwn() ? Material.ORANGE_STAINED_GLASS_PANE : Material.RED_STAINED_GLASS_PANE, HOME_SLOTS);
     }
 
     private void refreshInfo() {

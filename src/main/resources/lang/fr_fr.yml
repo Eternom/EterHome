@@ -4,12 +4,7 @@
 # Les valeurs entre <> comme <home> sont remplies par le plugin. Pour afficher un "<", écrire \< entre 'guillemets simples'.
 # Une clé absente reprend le texte intégré au plugin : tu peux ne garder que les lignes que tu modifies.
 # Le préfixe des messages (« Core ») est commun à tous les plugins : EterLib/config.yml > language.prefix.
-
-command:
-  players-only: "<error>Commande réservée aux joueurs."
-
-error:
-  generic: "<error>Une erreur est survenue, réessaie plus tard."
+# Textes communs (« Annuler », « Joueur inconnu », « Commande réservée aux joueurs »...) : dans EterLib/lang/, pour tous les plugins.
 
 home:
   set: "<info>Home <accent><home></accent> défini."
@@ -23,13 +18,11 @@ home:
   delhome-usage: '<error>Précise le home à supprimer : <accent>/delhome \<nom>'
 
 player:
-  unknown: "<error>Joueur inconnu : <accent><player></accent>."
   no-permission-others: "<error>Tu n'as pas la permission de voir les homes des autres joueurs."
 
 dialog:
   name: "Nom"
   use-hand: "Utiliser l'item en main comme icône"
-  cancel: "Annuler"
   create:
     title: "<primary>Nouveau home"
     body: "Ta position actuelle sera enregistrée."

@@ -17,7 +17,7 @@ Interface : **GUI simple** (inventaire Bukkit, rien de custom).
 | Dépendance | Rôle |
 |---|---|
 | Plugin de permissions (LuckPerms…) | Permissions / limites de homes, lues via l'API Bukkit |
-| **EterLib** (`depend`) | Socle commun : base, Redis, langue, joueurs du réseau, téléportation, menus (voir le README d'EterLib) |
+| **EterLib 1.6.0+** (`depend`) | Socle commun : base, Redis, langue et textes communs, joueurs du réseau, téléportation, menus (cadre, Dialogs) (voir le README d'EterLib) |
 
 ---
 

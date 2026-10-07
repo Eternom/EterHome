@@ -4,12 +4,7 @@
 # Values between <> such as <home> are filled in by the plugin. To show a literal "<", write \< inside 'single quotes'.
 # A missing key falls back to the plugin's built-in text: you only need to keep the lines you change.
 # The message prefix ("Core") is shared by all plugins: EterLib/config.yml > language.prefix.
-
-command:
-  players-only: "<error>This command can only be used by players."
-
-error:
-  generic: "<error>Something went wrong, please try again later."
+# Shared texts ("Cancel", "Unknown player", "players only"...): in EterLib/lang/, for every plugin.
 
 home:
   set: "<info>Home <accent><home></accent> set."
@@ -23,13 +18,11 @@ home:
   delhome-usage: '<error>Tell which home to delete: <accent>/delhome \<name>'
 
 player:
-  unknown: "<error>Unknown player: <accent><player></accent>."
   no-permission-others: "<error>You are not allowed to see other players' homes."
 
 dialog:
   name: "Name"
   use-hand: "Use the item in my hand as icon"
-  cancel: "Cancel"
   create:
     title: "<primary>New home"
     body: "Your current position will be saved."
