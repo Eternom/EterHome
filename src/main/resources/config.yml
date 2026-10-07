@@ -11,3 +11,9 @@ homes:
   # Nombre de homes par joueur. Une permission eterhome.limit.<n> (ex : eterhome.limit.10)
   # peut l'augmenter, jamais le baisser ; eterhome.limit.unlimited le supprime.
   default-limit: 3
+
+# Menus : bouton en bas du menu. Avec une commande (sans le /), il la lance pour le joueur et relie
+# les menus entre eux (ex : "profile" pour revenir au menu du profil) ; vide, il ferme le menu.
+menus:
+  homes:
+    back-command: ""

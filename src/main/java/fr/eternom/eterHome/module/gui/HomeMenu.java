@@ -31,7 +31,7 @@ import java.util.UUID;
  *  ▢ · · · · · · · ▢     ▣ = cadre orange (rouge en mode admin), ▢ = cadre gris
  *  ▢ · · · · · · · ▢
  *  ▣ · · · · · · · ▣
- *  ◀ ▣ ▢ ▢ + ▢ ▢ ▣ ▶     + = nouveau home, ◀ ▶ = pages
+ *  ◀ ▣ ▢ « + ▢ ▢ ▣ ▶     + = nouveau home, ◀ ▶ = pages, « = retour (commande de la config) ou fermer
  * </pre>
  * Clic gauche = se téléporter, Maj + clic gauche = modifier, clic droit = supprimer (selon les droits du viewer).
  */
@@ -39,6 +39,7 @@ public class HomeMenu implements Menu {
 
     private static final int INFO = 4;
     private static final int PREVIOUS = 45;
+    private static final int BACK = 48;
     private static final int CREATE = 49;
     private static final int NEXT = 53;
     private static final int EMPTY = 22;
@@ -102,6 +103,8 @@ public class HomeMenu implements Menu {
             page++;
             Sounds.page(player);
             render();
+        } else if (slot == BACK) {
+            gui.backButton().click(player);
         } else if ((slot == CREATE || slot == EMPTY && homes.isEmpty()) && canCreate()) {
             Sounds.click(player);
             gui.create(player);
@@ -138,6 +141,7 @@ public class HomeMenu implements Menu {
             inventory.setItem(NEXT, Items.item(Material.ARROW, text("gui.next"),
                     List.of(text("gui.page", "page", String.valueOf(page + 2), "pages", String.valueOf(pageCount())))));
         }
+        inventory.setItem(BACK, gui.backButton().item(viewer));
         if (canCreate()) {
             inventory.setItem(CREATE, Items.item(Material.ORANGE_BED, text("gui.create"), List.of(text("gui.create-lore"))));
         }

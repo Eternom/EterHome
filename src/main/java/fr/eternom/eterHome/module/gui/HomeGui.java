@@ -4,6 +4,7 @@ import fr.eternom.eterHome.module.home.Home;
 import fr.eternom.eterHome.module.home.HomeActions;
 import fr.eternom.eterHome.module.home.HomeManager;
 import fr.eternom.eterHome.module.permission.HomePermissions;
+import fr.eternom.eterLib.helper.gui.BackButton;
 import fr.eternom.eterLib.helper.message.Messages;
 import fr.eternom.eterLib.module.teleport.TeleportService;
 import org.bukkit.Location;
@@ -31,9 +32,10 @@ public class HomeGui {
     private final TeleportService teleports;
     private final Messages messages;
     private final String serverName;
+    private final BackButton backButton;
 
     public HomeGui(JavaPlugin plugin, HomeActions actions, HomeManager homeManager, HomePermissions permissions,
-                   HomeDialogs dialogs, TeleportService teleports, Messages messages, String serverName) {
+                   HomeDialogs dialogs, TeleportService teleports, Messages messages, String serverName, BackButton backButton) {
         this.plugin = plugin;
         this.actions = actions;
         this.homeManager = homeManager;
@@ -42,6 +44,7 @@ public class HomeGui {
         this.teleports = teleports;
         this.messages = messages;
         this.serverName = serverName;
+        this.backButton = backButton;
     }
 
     public void open(Player viewer, UUID owner, String ownerName) {
@@ -103,5 +106,9 @@ public class HomeGui {
 
     String serverName() {
         return serverName;
+    }
+
+    BackButton backButton() {
+        return backButton;
     }
 }

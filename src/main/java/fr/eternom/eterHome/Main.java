@@ -51,7 +51,7 @@ public final class Main extends JavaPlugin {
         homeManager = new HomeManager(database, lib.getRedis());
         homeActions = new HomeActions(this, homeManager, lib.getTeleports(), permissions, messages, serverName);
         homeGui = new HomeGui(this, homeActions, homeManager, permissions, new HomeDialogs(this, messages),
-                lib.getTeleports(), messages, serverName);
+                lib.getTeleports(), messages, serverName, lib.backButton(getConfig().getString("menus.homes.back-command", "")));
 
         new Commands(this);
         new Events(this);
