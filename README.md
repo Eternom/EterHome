@@ -5,14 +5,14 @@ d'un autre joueur pour le staff. Document développeur, à tenir à jour avec le
 
 ## Prérequis
 
-- **EterLib 1.6.0+** (`depend`) : base, Redis (facultatif), langues et textes communs, menus (cadre, Dialogs, bouton
+- **EterLib 1.8.0+** (`depend`) : base, Redis (obligatoire), langues et textes communs, menus (cadre, Dialogs, bouton
   Retour), téléportation commune (y compris vers un autre serveur).
 - Permissions lues par l'API Bukkit (LuckPerms ou autre).
 
 ## Fonctionnement
 
 - **Homes** (`module/home/HomeManager`, table `eterhome_homes`, clé `owner` + `name`) : serveur, monde, position,
-  orientation et icône. **SQL est la source de vérité** ; avec Redis, une copie par joueur (`homes:<uuid>`, 1 h) est
+  orientation et icône. **SQL est la source de vérité** ; Redis garde une copie par joueur (`homes:<uuid>`, 1 h),
   effacée à chaque modification et relue depuis la base. Appels en tâche de fond.
 - **Limite** : `homes.default-limit` (3), augmentée par `eterhome.limit.<n>`, supprimée par `eterhome.limit.unlimited`.
   Remplacer un home existant est toujours permis.
@@ -21,7 +21,7 @@ d'un autre joueur pour le staff. Document développeur, à tenir à jour avec le
 - **Menu `/homes`** (`module/gui`) : cadre orange (rouge en vue admin), tête du joueur avec limite et cooldown en direct,
   icône par dimension ou choisie par le joueur. Créer, modifier, supprimer : Dialogs natifs (client 1.21.6+), jamais
   de saisie dans le chat. Bouton du bas : `menus.homes.back-command` (vide = fermer).
-- **Auto-complétion** des noms de homes seulement avec Redis (sinon une lecture en base à chaque touche).
+- **Auto-complétion** des noms de homes, lue dans la copie Redis (jamais en base à chaque touche).
 
 ## Commandes et permissions
 

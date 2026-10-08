@@ -18,7 +18,7 @@ public final class Main extends JavaPlugin {
     /** Préfixe des tables d'EterHome dans la base commune : eterhome_homes. */
     private static final String TABLE_PREFIX = "eterhome_";
     /** Version minimale d'EterLib : textes communs et outils partagés (Frame, Money, NetworkBus) depuis 1.6.0. */
-    private static final String REQUIRED_ETERLIB = "1.6.0";
+    private static final String REQUIRED_ETERLIB = "1.8.0";
 
     private Messages messages;
     private HomeManager homeManager;

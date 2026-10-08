@@ -14,7 +14,7 @@ import java.util.UUID;
 
 /**
  * Homes des joueurs, partagés entre tous les serveurs.
- * SQL est la source de vérité. Si Redis est activé, il garde une copie : hash "homes:<uuid>", un champ par home,
+ * SQL est la source de vérité. Redis en garde une copie : hash "homes:<uuid>", un champ par home,
  * supprimée à chaque modification et rechargée depuis SQL à la lecture suivante.
  * Les appels sont bloquants : à exécuter hors du thread principal.
  */
@@ -25,7 +25,7 @@ public class HomeManager {
     private static final Duration CACHE_TTL = Duration.ofHours(1);
 
     private final Database database;
-    private final RedisCache redis; // null si Redis est désactivé
+    private final RedisCache redis;
 
     public HomeManager(Database database, RedisCache redis) {
         this.database = database;
@@ -46,30 +46,17 @@ public class HomeManager {
         database.addColumn(TABLE, Column.of("icon", Column.Type.STRING).length(64));
     }
 
-    /** true si Redis est activé : les lectures sont alors assez rapides pour l'auto-complétion. */
-    public boolean hasCache() {
-        return redis != null;
-    }
-
     public Optional<Home> get(UUID owner, String name) {
         String home = Home.normalize(name);
-        if (redis == null) {
-            return database.getFirst(TABLE, Map.of("owner", owner, "name", home)).map(Home::fromRow);
-        }
         return Optional.ofNullable(cached(owner).get(home)).map(value -> Home.deserialize(owner, home, value));
     }
 
     /** Tous les homes du joueur, tous serveurs confondus, triés par nom. */
     public List<Home> getAll(UUID owner) {
-        List<Home> homes;
-        if (redis == null) {
-            homes = database.get(TABLE, Map.of("owner", owner)).stream().map(Home::fromRow).toList();
-        } else {
-            homes = cached(owner).entrySet().stream()
-                    .map(entry -> Home.deserialize(owner, entry.getKey(), entry.getValue()))
-                    .toList();
-        }
-        return homes.stream().sorted(Comparator.comparing(Home::getName)).toList();
+        return cached(owner).entrySet().stream()
+                .map(entry -> Home.deserialize(owner, entry.getKey(), entry.getValue()))
+                .sorted(Comparator.comparing(Home::getName))
+                .toList();
     }
 
     /** Crée le home, ou le remplace s'il existe déjà (même s'il était sur un autre serveur). */
@@ -159,9 +146,7 @@ public class HomeManager {
 
     /** Après une écriture SQL : la copie Redis est obsolète, la prochaine lecture la recharge. */
     private void invalidate(UUID owner) {
-        if (redis != null) {
-            redis.delete(key(owner));
-        }
+        redis.delete(key(owner));
     }
 
     private String key(UUID owner) {

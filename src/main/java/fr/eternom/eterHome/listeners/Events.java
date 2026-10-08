@@ -8,10 +8,8 @@ public class Events {
 
     public Events(Main main) {
         // Les clics dans les menus sont gérés par EterLib, pour tous les plugins Eter.
-        // Sans Redis, compléter lirait SQL à chaque touche : désactivé
-        if (main.getHomeManager().hasCache()) {
-            register(main, new HomeTabListener(main.getHomeManager()));
-        }
+        // Complétion des noms de homes : lue dans la copie Redis, jamais en base à chaque touche
+        register(main, new HomeTabListener(main.getHomeManager()));
     }
 
     private void register(Main main, Listener listener) {
