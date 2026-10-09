@@ -11,6 +11,9 @@ import fr.eternom.eterLib.EterLib;
 import fr.eternom.eterLib.helper.message.Messages;
 import fr.eternom.eterLib.helper.sql.Database;
 import fr.eternom.eterLib.module.player.PlayerDirectory;
+import fr.eternom.eterHome.api.HomeApi;
+import fr.eternom.eterHome.module.home.HomeService;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
@@ -18,7 +21,7 @@ public final class Main extends JavaPlugin {
     /** Préfixe des tables d'EterHome dans la base commune : eterhome_homes. */
     private static final String TABLE_PREFIX = "eterhome_";
     /** Version minimale d'EterLib : textes communs et outils partagés (Frame, Money, NetworkBus) depuis 1.6.0. */
-    private static final String REQUIRED_ETERLIB = "1.8.0";
+    private static final String REQUIRED_ETERLIB = "1.10.0";
 
     private Messages messages;
     private HomeManager homeManager;
@@ -52,6 +55,10 @@ public final class Main extends JavaPlugin {
         homeActions = new HomeActions(this, homeManager, lib.getTeleports(), permissions, messages, serverName);
         homeGui = new HomeGui(this, homeActions, homeManager, permissions, new HomeDialogs(this, messages),
                 lib.getTeleports(), messages, serverName, lib.backButton(getConfig().getString("menus.homes.back-command", "")));
+
+        // API pour les autres plugins (HomeApi.get())
+        getServer().getServicesManager().register(HomeApi.class, new HomeService(homeManager, homeActions, permissions, homeGui), this,
+                ServicePriority.Normal);
 
         new Commands(this);
         new Events(this);

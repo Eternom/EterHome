@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * Auto-complétion des noms de homes pour /home, /delhome et /sethome.
- * Enregistré seulement si Redis est activé : la lecture est rapide et se fait hors du thread principal.
+ * Lue dans la copie Redis (rapide, hors du thread principal), jamais en base à chaque touche.
  */
 public class HomeTabListener implements Listener {
 

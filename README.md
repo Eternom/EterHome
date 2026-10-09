@@ -5,7 +5,7 @@ d'un autre joueur pour le staff. Document développeur, à tenir à jour avec le
 
 ## Prérequis
 
-- **EterLib 1.8.0+** (`depend`) : base, Redis (obligatoire), langues et textes communs, menus (cadre, Dialogs, bouton
+- **EterLib 1.10.0+** (`depend`) : base, Redis (obligatoire), langues et textes communs, menus (cadre, Dialogs, bouton
   Retour), téléportation commune (y compris vers un autre serveur).
 - Permissions lues par l'API Bukkit (LuckPerms ou autre).
 
@@ -35,3 +35,12 @@ d'un autre joueur pour le staff. Document développeur, à tenir à jour avec le
 Joueurs (par défaut) : `eterhome.set`, `.delete`, `.rename`, `.teleport`, `.list`. Staff (op), regroupées dans
 `eterhome.admin` : `.others.view`, `.others.teleport`, `.others.delete`, `.others.rename`, `.limit.unlimited`.
 Dispenses de téléportation : `eter.bypass.*` d'EterLib, valables pour tout le réseau.
+
+## API (pour les autres plugins)
+
+`fr.eternom.eterHome.api.HomeApi` (`HomeApi.get()`) : personne d'autre ne lit `eterhome_homes` ni la copie Redis.
+
+- `homes(uuid)` : les homes d'un joueur, connecté ou non (bloquant : hors du thread principal) ;
+- `limit(joueur)` (-1 = sans limite) ;
+- `openMenu(lecteur, uuid, pseudo)` : le menu des homes, vue staff comprise (permissions habituelles) ;
+- `teleport(joueur, uuid, nom)` : y aller avec les règles habituelles.

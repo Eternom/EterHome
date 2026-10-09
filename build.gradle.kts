@@ -1,5 +1,6 @@
 plugins {
     id("java-library")
+    id("maven-publish")
     id("xyz.jpenilla.run-paper") version "3.1.0"
 }
 
@@ -16,7 +17,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
 
     // Socle commun : base, Redis, langue, joueurs, téléportation (plugin EterLib installé sur le serveur)
-    compileOnly("com.github.Eternom:EterLib:1.8.0")
+    compileOnly("com.github.Eternom:EterLib:1.10.3")
 }
 
 java {
@@ -59,3 +60,13 @@ val deployPlugin by tasks.registering(Copy::class) {
     }
 }
 tasks.build { finalizedBy(deployPlugin) }
+
+// Publié pour les autres plugins (son API, fr.eternom.eterHome.api) : compileOnly("com.github.Eternom:EterHome:<tag>")
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            artifactId = "EterHome"
+            from(components["java"])
+        }
+    }
+}
