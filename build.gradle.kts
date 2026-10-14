@@ -24,7 +24,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
 
     // Socle commun : base, Redis, langue, joueurs, téléportation (plugin EterLib installé sur le serveur)
-    compileOnly("com.github.Eternom:EterLib:1.10.3")
+    compileOnly("com.github.Eternom:EterLib:1.15.0")
 }
 
 java {

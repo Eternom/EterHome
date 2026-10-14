@@ -4,6 +4,7 @@ import fr.eternom.eterHome.module.permission.HomePermissions;
 import fr.eternom.eterLib.helper.message.Messages;
 import fr.eternom.eterLib.helper.task.Tasks;
 import fr.eternom.eterLib.module.teleport.Destination;
+import fr.eternom.eterLib.helper.gui.Sounds;
 import fr.eternom.eterLib.module.teleport.TeleportService;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -122,7 +123,11 @@ public class HomeActions {
     private void reply(Player player, Reply reply) {
         messages.send(player, reply.key(), reply.placeholders());
         // Petit retour sonore : clair si ça a marché, grave sinon
-        player.playSound(player.getLocation(), reply.success() ? Sound.ENTITY_EXPERIENCE_ORB_PICKUP : Sound.ENTITY_VILLAGER_NO, 0.6f, 1f);
+        if (reply.success()) {
+            player.playSound(player, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.6f, 1f);
+        } else {
+            Sounds.refuse(player);
+        }
     }
 
     private static void run(Runnable then) {

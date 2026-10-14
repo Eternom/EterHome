@@ -5,7 +5,7 @@ d'un autre joueur pour le staff. Document développeur, à tenir à jour avec le
 
 ## Prérequis
 
-- **EterLib 1.10.0+** (`depend`) : base, Redis (obligatoire), langues et textes communs, menus (cadre, Dialogs, bouton
+- **EterLib 1.15.0+** (`depend`) : base, Redis (obligatoire), langues et textes communs, menus (cadre, Dialogs, bouton
   Retour), téléportation commune (y compris vers un autre serveur).
 - Permissions lues par l'API Bukkit (LuckPerms ou autre).
 
