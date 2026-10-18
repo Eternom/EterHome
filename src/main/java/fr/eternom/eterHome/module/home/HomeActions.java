@@ -1,5 +1,6 @@
 package fr.eternom.eterHome.module.home;
 
+import fr.eternom.eterHome.api.HomeSetEvent;
 import fr.eternom.eterHome.module.permission.HomePermissions;
 import fr.eternom.eterLib.helper.message.Messages;
 import fr.eternom.eterLib.helper.task.Tasks;
@@ -54,12 +55,15 @@ public class HomeActions {
         }
         int limit = permissions.limit(player);
         Home home = Home.of(player.getUniqueId(), serverName, name, location, icon);
-        async(player, () -> switch (homeManager.set(home, limit)) {
-            case CREATED -> new Reply(true, "home.set", "home", home.getName());
-            case REPLACED -> new Reply(true, "home.moved", "home", home.getName());
-            case LIMIT_REACHED -> new Reply(false, "home.limit-reached", "limit", String.valueOf(limit));
-        }, reply -> {
-            reply(player, reply);
+        async(player, () -> homeManager.set(home, limit), result -> {
+            reply(player, switch (result) {
+                case CREATED -> new Reply(true, "home.set", "home", home.getName());
+                case REPLACED -> new Reply(true, "home.moved", "home", home.getName());
+                case LIMIT_REACHED -> new Reply(false, "home.limit-reached", "limit", String.valueOf(limit));
+            });
+            if (result != HomeManager.SetResult.LIMIT_REACHED) {
+                Bukkit.getPluginManager().callEvent(new HomeSetEvent(player, home.getName(), result == HomeManager.SetResult.CREATED));
+            }
             run(then);
         });
     }

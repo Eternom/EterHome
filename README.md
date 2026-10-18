@@ -44,3 +44,6 @@ Dispenses de téléportation : `eter.bypass.*` d'EterLib, valables pour tout le 
 - `limit(joueur)` (-1 = sans limite) ;
 - `openMenu(lecteur, uuid, pseudo)` : le menu des homes, vue staff comprise (permissions habituelles) ;
 - `teleport(joueur, uuid, nom)` : y aller avec les règles habituelles.
+
+Événement `fr.eternom.eterHome.api.HomeSetEvent` (1.3.0) : un home créé (`isCreated()`) ou déplacé, une fois enregistré
+en base (thread principal). EterSuccess s'en sert pour valider l'étape « Un home » tout de suite.
