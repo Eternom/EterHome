@@ -36,6 +36,18 @@ Joueurs (par défaut) : `eterhome.set`, `.delete`, `.rename`, `.teleport`, `.lis
 `eterhome.admin` : `.others.view`, `.others.teleport`, `.others.delete`, `.others.rename`, `.limit.unlimited`.
 Dispenses de téléportation : `eter.bypass.*` d'EterLib, valables pour tout le réseau.
 
+## Terrains des clans (EterClan 1.4.0+, facultatif)
+
+Pas de home sur le terrain d'un **autre** clan (`ClanLand`, `ClanApi#canHome` : sur le terrain d'un clan, la permission de
+clan `homes` ; dans une parcelle louée, son locataire et ceux qu'il a choisis ; `eterclan.bypass.claims` passe partout) :
+- `/sethome` y est refusé ;
+- un home déjà là (posé avant que le chunk soit pris, membre exclu...) : sur ce serveur, `/home` est refusé (« petit
+  malin ») et le menu l'indique ; sur un autre serveur, le départ est noté dans Redis (`eterhome:arrival:<uuid>`, 1 min)
+  et, à l'arrivée, le joueur est renvoyé au lobby (canal `eter:lobby` d'EterVelocityLobby ; sans lui, au spawn du monde)
+  (`HomeArrivals`). Rien n'est supprimé : rejoint le clan (ou terrain rendu), le home remarche.
+- Le staff qui va au home d'un autre joueur (`eterhome.others.teleport`) n'est pas concerné.
+Les terrains ne sont connus que sur leur serveur (EterClan tourne aussi sur les lobbys, sans terrain).
+
 ## API (pour les autres plugins)
 
 `fr.eternom.eterHome.api.HomeApi` (`HomeApi.get()`) : personne d'autre ne lit `eterhome_homes` ni la copie Redis.

@@ -35,21 +35,28 @@ public class HomeActions {
     private final HomePermissions permissions;
     private final Messages messages;
     private final String serverName;
+    private final HomeArrivals arrivals;
 
     public HomeActions(JavaPlugin plugin, HomeManager homeManager, TeleportService teleports, HomePermissions permissions,
-                       Messages messages, String serverName) {
+                       Messages messages, String serverName, HomeArrivals arrivals) {
         this.plugin = plugin;
         this.homeManager = homeManager;
         this.teleports = teleports;
         this.permissions = permissions;
         this.messages = messages;
         this.serverName = serverName;
+        this.arrivals = arrivals;
     }
 
     /** Crée ou déplace un home du joueur à location. icon = null : icône automatique (ou celle déjà choisie). */
     public void setHome(Player player, String name, Location location, Material icon, Runnable then) {
         if (!Home.isValidName(name)) {
             reply(player, new Reply(false, "home.name-invalid"));
+            run(then);
+            return;
+        }
+        if (!ClanLand.allows(player, location)) {
+            reply(player, new Reply(false, "home.clan-land"));
             run(then);
             return;
         }
@@ -113,10 +120,25 @@ public class HomeActions {
                 () -> reply(actor, new Reply(false, "home.not-found", "home", Home.normalize(name)))));
     }
 
-    /** Les règles communes (combat, cooldown, attente) et le changement de serveur sont gérés par EterLib. */
+    /**
+     * Les règles communes (combat, cooldown, attente) et le changement de serveur sont gérés par EterLib. Son propre home
+     * sur le terrain d'un autre clan : refusé ici, ou à l'arrivée s'il est sur un autre serveur (HomeArrivals). Le staff
+     * qui va au home d'un autre joueur n'est pas concerné.
+     */
     public void teleport(Player player, Home home) {
-        teleports.teleport(player, Destination.at(home.getServer(), home.getWorld(), home.getX(), home.getY(), home.getZ(),
-                home.getYaw(), home.getPitch(), home.getName()));
+        boolean own = home.getOwner().equals(player.getUniqueId());
+        boolean here = home.isOn(serverName);
+        if (own && here && !ClanLand.allows(player, home.getLocation())) {
+            reply(player, new Reply(false, "home.clan-land-teleport"));
+            return;
+        }
+        Destination destination = Destination.at(home.getServer(), home.getWorld(), home.getX(), home.getY(), home.getZ(),
+                home.getYaw(), home.getPitch(), home.getName());
+        if (own && !here) {
+            teleports.teleport(player, destination, () -> arrivals.departing(player));
+        } else {
+            teleports.teleport(player, destination);
+        }
     }
 
     /** Exécute task hors du thread principal, puis then sur le thread principal si le joueur est toujours là. */

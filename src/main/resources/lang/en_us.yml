@@ -7,6 +7,9 @@
 # Shared texts ("Cancel", "Unknown player", "players only"...): in EterLib/lang/, for every plugin.
 
 home:
+  clan-land: "<error>You can't set a home on another clan's land."
+  clan-land-teleport: "<error>Nice try! This home is on another clan's land: you can't get in that way anymore."
+  clan-land-arrival: "<error>Nice try! This home is on another clan's land: back to the lobby."
   set: "<info>Home <accent><home></accent> set."
   moved: "<info>Home <accent><home></accent> moved here."
   deleted: "<info>Home <accent><home></accent> deleted."
@@ -61,6 +64,7 @@ gui:
     name: "<accent><home>"
     server: "<dark_gray>▸ <info>Server: <accent><server>"
     server-here: "<dark_gray>▸ <info>Server: <accent><server></accent> <success>(here)"
+    clan-land: "<error>On another clan's land: unreachable"
     world: "<dark_gray>▸ <info>World: <accent><world>"
     coords: "<dark_gray>▸ <info>X <accent><x></accent> · Y <accent><y></accent> · Z <accent><z>"
     teleport: "<accent>Left click <dark_gray>· <info>teleport"

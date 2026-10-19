@@ -5,6 +5,8 @@ main: fr.eternom.eterHome.Main
 api-version: '26.2'
 load: POSTWORLD
 depend: [EterLib]
+# EterClan : pas de home sur le terrain d'un autre clan (permission de clan « homes »)
+softdepend: [EterClan]
 
 commands:
   sethome:

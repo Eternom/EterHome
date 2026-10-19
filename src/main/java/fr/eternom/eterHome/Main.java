@@ -5,6 +5,7 @@ import fr.eternom.eterHome.listeners.Events;
 import fr.eternom.eterHome.module.gui.HomeDialogs;
 import fr.eternom.eterHome.module.gui.HomeGui;
 import fr.eternom.eterHome.module.home.HomeActions;
+import fr.eternom.eterHome.module.home.HomeArrivals;
 import fr.eternom.eterHome.module.home.HomeManager;
 import fr.eternom.eterHome.module.permission.HomePermissions;
 import fr.eternom.eterLib.EterLib;
@@ -52,7 +53,9 @@ public final class Main extends JavaPlugin {
 
         HomePermissions permissions = new HomePermissions(getConfig().getInt("homes.default-limit", 3));
         homeManager = new HomeManager(database, lib.getRedis());
-        homeActions = new HomeActions(this, homeManager, lib.getTeleports(), permissions, messages, serverName);
+        HomeArrivals arrivals = new HomeArrivals(this, lib.getRedis(), messages);
+        getServer().getPluginManager().registerEvents(arrivals, this);
+        homeActions = new HomeActions(this, homeManager, lib.getTeleports(), permissions, messages, serverName, arrivals);
         homeGui = new HomeGui(this, homeActions, homeManager, permissions, new HomeDialogs(this, messages),
                 lib.getTeleports(), messages, serverName, lib.backButton(getConfig().getString("menus.homes.back-command", "")));
 

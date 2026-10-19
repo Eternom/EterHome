@@ -1,5 +1,6 @@
 package fr.eternom.eterHome.module.gui;
 
+import fr.eternom.eterHome.module.home.ClanLand;
 import fr.eternom.eterHome.module.home.Home;
 import fr.eternom.eterHome.module.permission.HomePermissions;
 import fr.eternom.eterLib.EterLib;
@@ -190,6 +191,10 @@ public class HomeMenu implements Menu {
         lore.add(text(here ? "gui.home.server-here" : "gui.home.server", "server", EterLib.get().getServerDisplayName(home.getServer())));
         lore.add(text("gui.home.world", "world", home.getWorld()));
         lore.add(text("gui.home.coords", "x", coordinate(home.getX()), "y", coordinate(home.getY()), "z", coordinate(home.getZ())));
+        // Son home sur le terrain d'un autre clan (ce serveur) : on le dit tout de suite
+        if (here && owner.equals(viewer.getUniqueId()) && !ClanLand.allows(viewer, home.getLocation())) {
+            lore.add(text("gui.home.clan-land"));
+        }
         lore.add(Component.empty());
 
         HomePermissions permissions = gui.permissions();

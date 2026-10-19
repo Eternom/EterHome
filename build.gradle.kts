@@ -25,6 +25,8 @@ dependencies {
 
     // Socle commun : base, Redis, langue, joueurs, téléportation (plugin EterLib installé sur le serveur)
     compileOnly("com.github.Eternom:EterLib:1.15.0")
+    // Terrains des clans (ClanApi#canHome) : facultatif (softdepend)
+    compileOnly("com.github.Eternom:EterClan:1.4.0")
 }
 
 java {

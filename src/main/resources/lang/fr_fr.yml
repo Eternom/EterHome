@@ -7,6 +7,9 @@
 # Textes communs (« Annuler », « Joueur inconnu », « Commande réservée aux joueurs »...) : dans EterLib/lang/, pour tous les plugins.
 
 home:
+  clan-land: "<error>Tu ne peux pas poser de home sur le terrain d'un autre clan."
+  clan-land-teleport: "<error>Hé, petit malin ! Ce home est sur le terrain d'un autre clan : tu n'y entres plus par là."
+  clan-land-arrival: "<error>Hé, petit malin ! Ce home est sur le terrain d'un autre clan : retour au lobby."
   set: "<info>Home <accent><home></accent> défini."
   moved: "<info>Home <accent><home></accent> déplacé ici."
   deleted: "<info>Home <accent><home></accent> supprimé."
@@ -61,6 +64,7 @@ gui:
     name: "<accent><home>"
     server: "<dark_gray>▸ <info>Serveur : <accent><server>"
     server-here: "<dark_gray>▸ <info>Serveur : <accent><server></accent> <success>(ici)"
+    clan-land: "<error>Sur le terrain d'un autre clan : inaccessible"
     world: "<dark_gray>▸ <info>Monde : <accent><world>"
     coords: "<dark_gray>▸ <info>X <accent><x></accent> · Y <accent><y></accent> · Z <accent><z>"
     teleport: "<accent>Clic gauche <dark_gray>· <info>se téléporter"
