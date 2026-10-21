@@ -24,7 +24,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
 
     // Socle commun : base, Redis, langue, joueurs, téléportation (plugin EterLib installé sur le serveur)
-    compileOnly("com.github.Eternom:EterLib:1.15.0")
+    compileOnly("com.github.Eternom:EterLib:1.20.1")
     // Terrains des clans (ClanApi#canHome) : facultatif (softdepend)
     compileOnly("com.github.Eternom:EterClan:1.4.0")
 }
