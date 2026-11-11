@@ -24,7 +24,7 @@ player:
   no-permission-others: "<error>Tu n'as pas la permission de voir les homes des autres joueurs."
 
 dialog:
-  name: "Nom"
+  name: "Nom (lettres, chiffres, _ et -, 32 max)"
   use-hand: "Utiliser l'item en main comme icône"
   create:
     title: "<primary>Nouveau home"

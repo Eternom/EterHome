@@ -24,7 +24,7 @@ player:
   no-permission-others: "<error>You are not allowed to see other players' homes."
 
 dialog:
-  name: "Name"
+  name: "Name (letters, digits, _ and -, 32 max)"
   use-hand: "Use the item in my hand as icon"
   create:
     title: "<primary>New home"
