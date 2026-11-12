@@ -165,6 +165,11 @@ public class HomeMenu implements Menu {
             if (limit > 0) {
                 int filled = (int) Math.round(Math.min(1, (double) homes.size() / limit) * GAUGE_SIZE);
                 lore.add(text("gui.info.gauge", "filled", "▰".repeat(filled), "empty", "▱".repeat(GAUGE_SIZE - filled)));
+                // Comment l'augmenter (texte du serveur ; vide : rien)
+                String more = messages.raw(viewer, "gui.info.more");
+                if (more != null && !more.isBlank()) {
+                    lore.add(text("gui.info.more"));
+                }
             }
             lore.add(Component.empty());
             long combat = gui.combatSeconds(viewer);

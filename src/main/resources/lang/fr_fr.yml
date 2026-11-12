@@ -19,6 +19,7 @@ home:
   name-taken: "<error>Un home s'appelle déjà <accent><home></accent>."
   limit-reached: "<error>Limite atteinte : <accent><limit></accent> home(s) maximum."
   delhome-usage: '<error>Précise le home à supprimer : <accent>/delhome \<nom>'
+  bed-hint: "<info>Ton lit est ton point de réapparition. Pour y revenir de partout, pose un home ici : <accent><click:suggest_command:'/sethome maison'>/sethome</click></accent>"
 
 player:
   no-permission-others: "<error>Tu n'as pas la permission de voir les homes des autres joueurs."
@@ -56,6 +57,8 @@ gui:
     count: "<info>Homes : <accent><count></accent><dark_gray>/</dark_gray><accent><limit>"
     count-other: "<info>Homes : <accent><count>"
     gauge: "<accent><filled></accent><dark_gray><empty>"
+    # Comment avoir plus de homes (à adapter à ton serveur : grade, boutique...) ; vide : ligne cachée
+    more: "<dark_gray>Plus de homes : selon ton grade"
     ready: "<success>● <info>Téléportation disponible"
     cooldown: "<error>● <info>Téléportation dans <accent><time>s"
     combat: "<error>● <info>En combat : <accent><time>s"

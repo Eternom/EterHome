@@ -19,6 +19,7 @@ home:
   name-taken: "<error>A home named <accent><home></accent> already exists."
   limit-reached: "<error>Limit reached: <accent><limit></accent> home(s) maximum."
   delhome-usage: '<error>Tell which home to delete: <accent>/delhome \<name>'
+  bed-hint: "<info>Your bed is your respawn point. To come back from anywhere, set a home here: <accent><click:suggest_command:'/sethome house'>/sethome</click></accent>"
 
 player:
   no-permission-others: "<error>You are not allowed to see other players' homes."
@@ -56,6 +57,8 @@ gui:
     count: "<info>Homes: <accent><count></accent><dark_gray>/</dark_gray><accent><limit>"
     count-other: "<info>Homes: <accent><count>"
     gauge: "<accent><filled></accent><dark_gray><empty>"
+    # How to get more homes (adapt to your server: rank, shop...); empty: line hidden
+    more: "<dark_gray>More homes: depends on your rank"
     ready: "<success>● <info>Teleport available"
     cooldown: "<error>● <info>Teleport in <accent><time>s"
     combat: "<error>● <info>In combat: <accent><time>s"

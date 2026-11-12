@@ -55,6 +55,7 @@ public final class Main extends JavaPlugin {
         homeManager = new HomeManager(database, lib.getRedis());
         HomeArrivals arrivals = new HomeArrivals(this, lib.getRedis(), messages);
         getServer().getPluginManager().registerEvents(arrivals, this);
+        getServer().getPluginManager().registerEvents(new fr.eternom.eterHome.module.home.BedHint(messages), this);
         homeActions = new HomeActions(this, homeManager, lib.getTeleports(), permissions, messages, serverName, arrivals);
         homeGui = new HomeGui(this, homeActions, homeManager, permissions, new HomeDialogs(this, messages),
                 lib.getTeleports(), messages, serverName, lib.backButton(getConfig().getString("menus.homes.back-command", "")));
